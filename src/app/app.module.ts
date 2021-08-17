@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import {BackendService} from './backend.service';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HeaderModule } from './feature/header/header.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +13,9 @@ import { routes } from './app.routes';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes, {useHash: true})
+    RouterModule.forRoot(routes, {useHash: true}),
+    BrowserAnimationsModule,
+    HeaderModule
   ],
   providers: [BackendService],
   bootstrap: [AppComponent]
