@@ -8,6 +8,12 @@ import { delay, tap } from "rxjs/operators";
  * You are free to modify it as you see.
  */
 
+ export enum TicketStatus {
+  Any = -1,
+  Open = 1,
+  Closed = 2
+}
+
 export type User = {
   id: number;
   name: string;
@@ -15,6 +21,7 @@ export type User = {
 
 export type Ticket = {
   id: number;
+  name: string;
   description: string;
   assigneeId: number;
   completed: boolean;
@@ -29,13 +36,15 @@ export class BackendService {
   storedTickets: Ticket[] = [
     {
       id: 0,
-      description: "Install a monitor arm",
+      name: "Install a monitor arm",
+      description: "I currently have my monitors on top of books. True story, but hey, its been working.",
       assigneeId: 111,
       completed: false
     },
     {
       id: 1,
-      description: "Move the desk to the new location",
+      name: "Move the desk to the new location",
+      description: "Please move the desk down the hall from room 101 to room 999.... good luck!",
       assigneeId: 111,
       completed: false
     }
@@ -73,9 +82,10 @@ export class BackendService {
     return of(this.findUserById(id)).pipe(delay(randomDelay()));
   }
 
-  newTicket(payload: { description: string }) {
+  newTicket(payload: { name: string, description: string }) {
     const newTicket: Ticket = {
       id: ++this.lastId,
+      name: payload.name,
       description: payload.description,
       assigneeId: null,
       completed: false
