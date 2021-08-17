@@ -1,1 +1,41 @@
-<p>ticket-list works!</p>
+<div class="ticket-area">
+    <div class="ticket-filters">
+        <mat-form-field appearance="fill">
+            <mat-label>Assigned to</mat-label>
+            <mat-select [(ngModel)]="selectedUser"
+                        name="user">
+                        <mat-option
+                        [value]="-1">
+                Any
+            </mat-option>    
+                <mat-option *ngFor="let user of users | async"
+                            [value]="user.id">
+                    {{user.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Ticket Status</mat-label>
+            <mat-select [(ngModel)]="selectedStatus"
+                        name="status">
+                <mat-option [value]="TicketStatus.Any">
+                    Any
+                </mat-option>
+                <mat-option [value]="TicketStatus.Open">
+                    Open
+                </mat-option>
+                <mat-option [value]="TicketStatus.Closed">
+                    Closed
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </div>
+    <div>
+        <ul>
+            <li *ngFor="let t of tickets|async">
+                Ticket: {{t.id}}, {{t.description}}
+            </li>
+        </ul>
+    </div>
+</div>

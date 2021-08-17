@@ -48,12 +48,16 @@ export class BackendService {
 
   lastId = 1;
 
+  constructor() {
+    
+  }
+
   private findTicketById = id =>
     this.storedTickets.find(ticket => ticket.id === +id);
 
   private findUserById = id => this.storedUsers.find(user => user.id === +id);
 
-  tickets() {
+  tickets(): Observable<Ticket[]> {
     return of(this.storedTickets).pipe(delay(randomDelay()));
   }
 
@@ -61,11 +65,11 @@ export class BackendService {
     return of(this.findTicketById(id)).pipe(delay(randomDelay()));
   }
 
-  users() {
+  users(): Observable<User[]> {
     return of(this.storedUsers).pipe(delay(randomDelay()));
   }
 
-  user(id: number) {
+  user(id: number): Observable<User> {
     return of(this.findUserById(id)).pipe(delay(randomDelay()));
   }
 

@@ -1,0 +1,10 @@
+.ticket-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.ticket-filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BackendService } from '../services/backend.service';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TicketDetailComponent implements OnInit {
 
-  constructor() { }
+  tickets = this.backend.tickets();
+  users = this.backend.users();
+
+  constructor(private backend: BackendService) {}
 
   ngOnInit(): void {
   }
