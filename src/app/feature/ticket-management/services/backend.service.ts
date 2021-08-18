@@ -1,4 +1,6 @@
+import { JsonpClientBackend } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { tick } from "@angular/core/testing";
 import { Observable, of, throwError } from "rxjs";
 import { delay, tap } from "rxjs/operators";
 
@@ -31,6 +33,18 @@ function randomDelay() {
   return Math.random() * 1000;
 }
 
+function saveToStorage(key: string, value: any) {
+  window.localStorage.setItem(key, value);
+}
+
+function loadFromStorage(key: string) {
+  var value = window.localStorage.getItem(key);
+  if(value) {
+    return JSON.parse(value);
+  }
+  return null;
+}
+
 @Injectable()
 export class BackendService {
   storedTickets: Ticket[] = [
@@ -61,13 +75,37 @@ export class BackendService {
     
   }
 
-  private findTicketById = id =>
-    this.storedTickets.find(ticket => ticket.id === +id);
+  private loadTicketsFromStorage(): Ticket[] {
+    var tickets = loadFromStorage('tickets');
+    if(tickets) {
+      this.storedTickets = tickets; //overwrite with storage
+    } else {
+      saveToStorage('tickets', JSON.stringify(this.storedTickets));
+    }
+    return this.storedTickets;
+  }
 
-  private findUserById = id => this.storedUsers.find(user => user.id === +id);
+  private saveTicketsToStorage() {
+    saveToStorage('tickets', JSON.stringify(this.storedTickets));
+  }
+
+  private loadUsersFromStorage(): User[] {
+    var users = loadFromStorage('users');
+    if(users) {
+      this.storedUsers = users; //overwrite with storage
+    } else {
+      saveToStorage('users', JSON.stringify(this.storedUsers));
+    }
+    return this.storedUsers;
+  }
+
+  private findTicketById = id =>
+    this.loadTicketsFromStorage().find(ticket => ticket.id === +id);
+
+  private findUserById = id => this.loadUsersFromStorage().find(user => user.id === +id);
 
   tickets(): Observable<Ticket[]> {
-    return of(this.storedTickets).pipe(delay(randomDelay()));
+    return of(this.loadTicketsFromStorage()).pipe(delay(randomDelay()));
   }
 
   ticket(id: number): Observable<Ticket> {
@@ -75,7 +113,7 @@ export class BackendService {
   }
 
   users(): Observable<User[]> {
-    return of(this.storedUsers).pipe(delay(randomDelay()));
+    return of(this.loadUsersFromStorage()).pipe(delay(randomDelay()));
   }
 
   user(id: number): Observable<User> {
@@ -93,7 +131,9 @@ export class BackendService {
 
     this.storedTickets = this.storedTickets.concat(newTicket);
 
-    return of(newTicket).pipe(delay(randomDelay()));
+    return of(newTicket).pipe(delay(randomDelay())).pipe(tap(() => {
+      this.saveTicketsToStorage();
+    }));
   }
 
   assign(ticketId: number, userId: number) {
@@ -117,6 +157,8 @@ export class BackendService {
       t.id === ticketId ? updatedTicket : t
     );
 
-    return of(updatedTicket).pipe(delay(randomDelay()));
+    return of(updatedTicket).pipe(delay(randomDelay())).pipe(tap(() => {
+      this.saveTicketsToStorage();
+    }));
   }
 }

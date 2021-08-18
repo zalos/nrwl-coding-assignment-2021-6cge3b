@@ -14,6 +14,7 @@ export class TicketListComponent implements OnInit {
   public selectedUser: number = -1; // -1 is the designation for not applying the filter
   public selectedStatus: TicketStatus = TicketStatus.Open;
 
+
   constructor(private backend: BackendService) {}
 
   ngOnInit(): void {
