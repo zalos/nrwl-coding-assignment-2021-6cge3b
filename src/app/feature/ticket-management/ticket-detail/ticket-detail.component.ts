@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BackendService } from '../services/backend.service';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { BackendService, Ticket } from '../services/backend.service';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -7,11 +9,17 @@ import { BackendService } from '../services/backend.service';
   styleUrls: ['./ticket-detail.component.css']
 })
 export class TicketDetailComponent implements OnInit {
+  public customerIdFromRoute: number;
+  public ticket: Ticket;
+  
+  constructor(private _backendService: BackendService, private _route: ActivatedRoute) {
+    this.customerIdFromRoute = parseInt(_route.snapshot.paramMap.get('id'));
+    this.loadTicket();
+  }
 
-  tickets = this.backend.tickets();
-  users = this.backend.users();
-
-  constructor(private backend: BackendService) {}
+  public async loadTicket() {
+    this.ticket = await this._backendService.ticket(this.customerIdFromRoute).toPromise();
+  }
 
   ngOnInit(): void {
   }
