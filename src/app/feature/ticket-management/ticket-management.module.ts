@@ -8,6 +8,7 @@ import { BackendService } from './services/backend.service';
 import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [TicketListComponent, TicketDetailComponent],
@@ -16,7 +17,8 @@ import {MatCardModule} from '@angular/material/card';
     FormsModule,
     TicketManagementRoutingModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [BackendService]
 })

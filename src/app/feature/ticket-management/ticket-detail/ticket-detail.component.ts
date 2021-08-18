@@ -1,27 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { BackendService, Ticket } from '../services/backend.service';
+import { combineLatest, merge, Observable, zip } from 'rxjs';
+import { BackendService, Ticket, User } from '../services/backend.service';
 
 @Component({
   selector: 'app-ticket-detail',
   templateUrl: './ticket-detail.component.html',
   styleUrls: ['./ticket-detail.component.css']
 })
-export class TicketDetailComponent implements OnInit {
+export class TicketDetailComponent {
   public customerIdFromRoute: number;
   public ticket: Ticket;
+  public users: User[];
+  public errorMessage: string;
   
   constructor(private _backendService: BackendService, private _route: ActivatedRoute) {
-    this.customerIdFromRoute = parseInt(_route.snapshot.paramMap.get('id'));
-    this.loadTicket();
+    this.getIdFromRoute();
+    
+    var ticket$ = this._backendService.ticket(this.customerIdFromRoute);
+    var user$ = this._backendService.users();
+    combineLatest([ticket$, user$]).subscribe((value) => {
+      this.ticket = value[0];
+      this.users = value[1];
+    });
   }
 
-  public async loadTicket() {
-    this.ticket = await this._backendService.ticket(this.customerIdFromRoute).toPromise();
+  public getIdFromRoute() {
+    this.customerIdFromRoute = parseInt(this._route.snapshot.paramMap.get('id'));
+    if(isNaN(this.customerIdFromRoute)) {
+      this.errorMessage = 'Invalid Ticket ID';
+    }
   }
-
-  ngOnInit(): void {
-  }
-
 }
