@@ -34,7 +34,10 @@
         <mat-card class="ticket-card"
                   *ngFor="let ticket of tickets|async">
             <mat-card-header>
-                <mat-card-title><a [routerLink]="['./', ticket.id]">{{ticket.name}}</a></mat-card-title>
+                <mat-card-title>
+                    <div><a [routerLink]="['./', ticket.id]">{{ticket.name}}</a></div>
+                    <div class="status" [ngClass]="{'complete': ticket.completed, 'open': !ticket.completed}" >{{ticket.completed ? "Complete" : "Open"}}</div>
+                </mat-card-title>
                 <mat-card-subtitle>Assigned to: {{ticket.assigneeId}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>

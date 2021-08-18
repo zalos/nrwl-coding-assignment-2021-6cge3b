@@ -16,7 +16,7 @@ export class TicketDetailComponent {
   
   constructor(private _backendService: BackendService, private _route: ActivatedRoute) {
     this.getIdFromRoute();
-    
+
     var ticket$ = this._backendService.ticket(this.customerIdFromRoute);
     var user$ = this._backendService.users();
     combineLatest([ticket$, user$]).subscribe((value) => {
@@ -30,5 +30,10 @@ export class TicketDetailComponent {
     if(isNaN(this.customerIdFromRoute)) {
       this.errorMessage = 'Invalid Ticket ID';
     }
+  }
+
+  public async complete() {
+    await this._backendService.complete(this.ticket.id, true).toPromise();
+    console.log('completed');
   }
 }
