@@ -34,6 +34,9 @@ export class TicketDetailComponent {
 
   public async complete() {
     await this._backendService.complete(this.ticket.id, true).toPromise();
-    console.log('completed');
+  }
+
+  public async assignTicket() {
+    await this._backendService.assign(this.ticket.id, this.ticket.assigneeId).toPromise();
   }
 }

@@ -3,6 +3,7 @@
         <mat-form-field appearance="fill">
             <mat-label>Assigned to</mat-label>
             <mat-select [(ngModel)]="selectedUser"
+                        (selectionChange)="filterTickets()"
                         name="user">
                 <mat-option [value]="-1">
                     Any
@@ -16,6 +17,7 @@
         <mat-form-field appearance="fill">
             <mat-label>Ticket Status</mat-label>
             <mat-select [(ngModel)]="selectedStatus"
+                        (selectionChange)="filterTickets()"
                         name="status">
                 <mat-option [value]="TicketStatus.Any">
                     Any
@@ -28,7 +30,11 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-
+        <div>
+            <button mat-raised-button color="primary" (click)="openAddTicketDialog()">
+                <mat-icon aria-hidden="false" aria-label="ticket add icon">add</mat-icon>
+            </button>
+        </div>
     </div>
     <div>
         <mat-card class="ticket-card"
@@ -36,9 +42,13 @@
             <mat-card-header>
                 <mat-card-title>
                     <div><a [routerLink]="['./', ticket.id]">{{ticket.name}}</a></div>
-                    <div class="status" [ngClass]="{'complete': ticket.completed, 'open': !ticket.completed}" >{{ticket.completed ? "Complete" : "Open"}}</div>
+                    <div class="status"
+                         [ngClass]="{'complete': ticket.completed, 'open': !ticket.completed}">{{ticket.completed ?
+                        "Complete" : "Open"}}</div>
                 </mat-card-title>
-                <mat-card-subtitle>Assigned to: {{ticket.assigneeId}}</mat-card-subtitle>
+                <mat-card-subtitle>Assigned to: 
+                    <span *ngIf="!userMap">...</span>
+                    <span *ngIf="userMap && userMap[ticket.assigneeId]">{{userMap[ticket.assigneeId].name}}</span></mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
                 <p>

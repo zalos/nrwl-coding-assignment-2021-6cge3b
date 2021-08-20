@@ -17,6 +17,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Assigned to</mat-label>
                     <mat-select [(ngModel)]="ticket.assigneeId"
+                                (selectionChange)="assignTicket()"
                                 name="user">
                         <mat-option *ngFor="let user of users"
                                     [value]="user.id">
@@ -33,7 +34,8 @@
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button
-                    color="primary" (click)="complete()">Complete</button>
+                    color="primary"
+                    (click)="complete()">Complete</button>
         </mat-card-actions>
     </mat-card>
 </div>

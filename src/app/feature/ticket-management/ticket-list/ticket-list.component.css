@@ -1,38 +1,36 @@
 .ticket-area {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .ticket-filters {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 mat-card {
-    margin-bottom: 12px;
+  margin-bottom: 12px;
 }
-
-
 
 mat-card-header {
-    width: 100%;
+  width: 100%;
 }
 mat-card-title {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 /deep/ .mat-card-header-text {
-    width: 100%;
-    text-align: center; 
-    text-align: left;
+  width: 100%;
+  text-align: center;
+  text-align: left;
 }
 .status.open {
-    font-weight: bold;
-    color: darkgreen;
+  font-weight: bold;
+  color: darkgreen;
 }
 
 .status.complete {
-    font-weight: normal;
-    color: grey;
+  font-weight: normal;
+  color: grey;
 }

@@ -16,12 +16,12 @@ import { delay, tap } from "rxjs/operators";
   Closed = 2
 }
 
-export type User = {
+export class User {
   id: number;
   name: string;
 };
 
-export type Ticket = {
+export class Ticket {
   id: number;
   name: string;
   description: string;
@@ -35,11 +35,13 @@ function randomDelay() {
 
 function saveToStorage(key: string, value: any) {
   window.localStorage.setItem(key, value);
+  console.log(`saved ${key} to storage`);
 }
 
 function loadFromStorage(key: string) {
   var value = window.localStorage.getItem(key);
   if(value) {
+    console.log(`loaded ${key} from storage`);
     return JSON.parse(value);
   }
   return null;
@@ -130,8 +132,7 @@ export class BackendService {
     };
 
     this.storedTickets = this.storedTickets.concat(newTicket);
-
-    return of(newTicket).pipe(delay(randomDelay())).pipe(tap(() => {
+    return of(newTicket).pipe(delay(randomDelay()), tap((val) => {
       this.saveTicketsToStorage();
     }));
   }

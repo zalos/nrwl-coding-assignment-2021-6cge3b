@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Add new ticket</h1>
+<div mat-dialog-content>
+  <p>Please give a brief summary of your request, and include a detailed description. </p>
+  <mat-form-field appearance="fill">
+    <mat-label>Summary</mat-label>
+    <input matInput
+           [(ngModel)]="data.name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput
+              [(ngModel)]="data.description"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button
+          [mat-dialog-close]="">Cancel</button>
+  <button mat-raised-button
+          color="primary"
+          [mat-dialog-close]="data"
+          cdkFocusInitial>Add Ticket</button>
+</div>
