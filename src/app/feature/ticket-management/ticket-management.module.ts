@@ -31,6 +31,7 @@ import { MatInputModule } from "@angular/material/input";
     MatIconModule,
     MatInputModule,
   ],
+  entryComponents: [AddTicketDialogComponent],
   providers: [BackendService],
 })
 export class TicketManagementModule {}
