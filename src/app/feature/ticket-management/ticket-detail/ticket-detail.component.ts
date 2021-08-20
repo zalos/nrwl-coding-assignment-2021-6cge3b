@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, merge, Observable, zip } from 'rxjs';
 import { BackendService, Ticket, User } from '../services/backend.service';
 
@@ -14,7 +14,7 @@ export class TicketDetailComponent {
   public users: User[];
   public errorMessage: string;
   
-  constructor(private _backendService: BackendService, private _route: ActivatedRoute) {
+  constructor(private _backendService: BackendService, private _route: ActivatedRoute, private _router: Router) {
     this.getIdFromRoute();
 
     var ticket$ = this._backendService.ticket(this.customerIdFromRoute);
@@ -34,6 +34,7 @@ export class TicketDetailComponent {
 
   public async complete() {
     await this._backendService.complete(this.ticket.id, true).toPromise();
+    this._router.navigate(['../', { relativeTo: this._route }])
   }
 
   public async assignTicket() {
