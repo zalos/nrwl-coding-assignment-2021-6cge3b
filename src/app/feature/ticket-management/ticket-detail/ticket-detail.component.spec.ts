@@ -10,9 +10,24 @@ import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { BackendService } from '../services/backend.service';
+import { BackendService, Ticket, User } from '../services/backend.service';
 import { RouterTestingModule} from '@angular/router/testing';
 import { TicketDetailComponent } from './ticket-detail.component';
+
+const mockTicket: Ticket = {
+  id: 123,
+  name: 'test ticket',
+  description: 'test description',
+  assigneeId: 123, 
+  completed: false
+}
+
+const mockUsers: User[] = [
+  { id: 111, name: "Victor" },
+  { id: 222, name: "Jack" }
+];
+
+const routeId = 123;
 
 describe('TicketDetailComponent', () => {
   let component: TicketDetailComponent;
@@ -36,13 +51,13 @@ describe('TicketDetailComponent', () => {
       ],
       providers: [{
         provide: BackendService,
-        useValue: jasmine.createSpyObj('BackendService', ['ticket', 'newTicket', 'users'])
+        useValue: jasmine.createSpyObj('BackendService', ['ticket', 'newTicket', 'users', 'complete'])
      }, {
       provide: ActivatedRoute,
       useValue: {
         snapshot: {
           paramMap: {
-            get: () => 123, // represents the ticket id
+            get: () => routeId, // represents the ticket id
           },
         },
       },
@@ -54,12 +69,8 @@ describe('TicketDetailComponent', () => {
   });
 
   beforeEach(() => {
-    mockBackendService.ticket.and.returnValue(of({
-      id: 123,
-      name: 'test ticket',
-      description: 'test description'
-    }));
-    mockBackendService.users.and.returnValue(of([]));
+    mockBackendService.ticket.and.returnValue(of(mockTicket));
+    mockBackendService.users.and.returnValue(of(mockUsers));
     fixture = TestBed.createComponent(TicketDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -67,5 +78,24 @@ describe('TicketDetailComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should load and display the ticket', () => {
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(mockBackendService.ticket).toHaveBeenCalledWith(routeId);
+    expect(compiled.querySelector('#ticket-name').textContent).toContain(mockTicket.name);
+    expect(compiled.querySelector('#ticket-description').textContent).toContain(mockTicket.description);
+  });
+
+  it('clicking complete ticket should call backend to complete', () => {
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    let completeButton = fixture.debugElement.nativeElement.querySelector('#complete-button');
+    completeButton.click();
+  
+    fixture.whenStable().then(() => {
+      expect(mockBackendService.complete).toHaveBeenCalledWith(mockTicket.id, true);
+    });
   });
 });

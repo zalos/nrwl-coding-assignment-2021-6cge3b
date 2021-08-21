@@ -12,7 +12,7 @@
     <mat-card class="ticket-card"
               *ngIf="ticket">
         <mat-card-header>
-            <mat-card-title>{{ticket.name}}</mat-card-title>
+            <mat-card-title id="ticket-name">{{ticket.name}}</mat-card-title>
             <mat-card-subtitle>
                 <mat-form-field appearance="fill">
                     <mat-label>Assigned to</mat-label>
@@ -28,12 +28,13 @@
             </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-            <p>
+            <p id="ticket-description">
                 {{ticket.description}}
             </p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button
+            <button id="complete-button"
+                mat-raised-button
                     color="primary"
                     (click)="complete()">Complete</button>
         </mat-card-actions>
