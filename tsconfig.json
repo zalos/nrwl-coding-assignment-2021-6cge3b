@@ -14,7 +14,10 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@app/ngrx/tickets": ["src/app/store/tickets/"],
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

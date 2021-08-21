@@ -13,6 +13,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
+import { StoreModule } from "@ngrx/store";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MatInputModule } from "@angular/material/input";
     MatDialogModule,
     MatIconModule,
     MatInputModule,
+    StoreModule
   ],
   entryComponents: [AddTicketDialogComponent],
   providers: [BackendService],
