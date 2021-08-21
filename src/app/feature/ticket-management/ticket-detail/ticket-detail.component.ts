@@ -10,19 +10,15 @@ import { BackendService, Ticket, User } from '../services/backend.service';
 })
 export class TicketDetailComponent {
   public customerIdFromRoute: number;
-  public ticket: Ticket;
-  public users: User[];
   public errorMessage: string;
-  
+  public ticket$: Observable<Ticket>;
+  public users$: Observable<User[]>;
+
   constructor(private _backendService: BackendService, private _route: ActivatedRoute, private _router: Router) {
     this.getIdFromRoute();
 
-    var ticket$ = this._backendService.ticket(this.customerIdFromRoute);
-    var user$ = this._backendService.users();
-    combineLatest([ticket$, user$]).subscribe((value) => {
-      this.ticket = value[0];
-      this.users = value[1];
-    });
+    this.ticket$ = this._backendService.ticket(this.customerIdFromRoute);
+    this.users$ = this._backendService.users();
   }
 
   public getIdFromRoute() {
@@ -32,12 +28,12 @@ export class TicketDetailComponent {
     }
   }
 
-  public async complete() {
-    await this._backendService.complete(this.ticket.id, true).toPromise();
+  public async complete(ticket: Ticket) {
+    await this._backendService.complete(ticket.id, true).toPromise();
     this._router.navigate(['../', { relativeTo: this._route }])
   }
 
-  public async assignTicket() {
-    await this._backendService.assign(this.ticket.id, this.ticket.assigneeId).toPromise();
+  public async assignTicket(ticket: Ticket) {
+    await this._backendService.assign(ticket.id, ticket.assigneeId).toPromise();
   }
 }

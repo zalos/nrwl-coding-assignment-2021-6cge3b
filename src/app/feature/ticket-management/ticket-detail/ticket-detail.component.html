@@ -10,16 +10,16 @@
         <a [routerLink]="['../']"> &lt; back to list</a>
     </div>
     <mat-card class="ticket-card"
-              *ngIf="ticket">
+              *ngIf="ticket$ | async as ticket">
         <mat-card-header>
             <mat-card-title id="ticket-name">{{ticket.name}}</mat-card-title>
             <mat-card-subtitle>
                 <mat-form-field appearance="fill">
                     <mat-label>Assigned to</mat-label>
                     <mat-select [(ngModel)]="ticket.assigneeId"
-                                (selectionChange)="assignTicket()"
+                                (selectionChange)="assignTicket(ticket)"
                                 name="user">
-                        <mat-option *ngFor="let user of users"
+                        <mat-option *ngFor="let user of users$ | async"
                                     [value]="user.id">
                             {{user.name}}
                         </mat-option>
@@ -36,7 +36,7 @@
             <button id="complete-button"
                 mat-raised-button
                     color="primary"
-                    (click)="complete()">Complete</button>
+                    (click)="complete(ticket)">Complete</button>
         </mat-card-actions>
     </mat-card>
 </div>
