@@ -14,6 +14,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { StoreModule } from "@ngrx/store";
+import { TicketReducer } from "src/app/store/tickets";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { StoreModule } from "@ngrx/store";
     MatDialogModule,
     MatIconModule,
     MatInputModule,
-    StoreModule
+    StoreModule.forFeature('tickets', TicketReducer)
   ],
   entryComponents: [AddTicketDialogComponent],
   providers: [BackendService],

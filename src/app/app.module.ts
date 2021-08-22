@@ -18,7 +18,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
     RouterModule.forRoot(routes, {useHash: true}),
     BrowserAnimationsModule,
     HeaderModule,
-    StoreModule.forRoot(TicketReducer),
+    StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       maxAge: 10
     })

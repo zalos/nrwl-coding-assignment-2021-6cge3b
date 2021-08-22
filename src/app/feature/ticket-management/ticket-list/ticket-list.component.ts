@@ -4,9 +4,10 @@ import { BackendService, Ticket, TicketStatus, User } from '../services/backend.
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AddTicketDialogComponent } from "./add-ticket/add-ticket.component";
 import { select, Store } from '@ngrx/store';
-import { TicketFeatureState } from 'src/app/store/tickets/ticket.reducer';
 import * as TicketActions from '../../../store/tickets';
 import { LoadTickets, LoadTicketsSuccess } from '../../../store/tickets';
+import { TicketFeatureState } from 'src/app/store/tickets/tickets.state';
+import { GetAllTickets } from 'src/app/store/tickets/ticket.selectors';
 
 class TicketItem extends Ticket {
   userName: string;
@@ -26,9 +27,7 @@ export class TicketListComponent implements OnInit {
   }));
   public selectedUser: number = -1; // -1 is the designation for not applying the filter
   public selectedStatus: TicketStatus = TicketStatus.Open;
-  public tickets$ = this._store.pipe(select(state => state)).subscribe(s => {
-    debugger;
-  });
+  public tickets$ = this._store.pipe(select(GetAllTickets));
 
 
   constructor(private _store: Store<TicketFeatureState>, private backend: BackendService, private _dialog: MatDialog) {
