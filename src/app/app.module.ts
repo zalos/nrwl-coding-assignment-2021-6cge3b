@@ -8,6 +8,7 @@ import { HeaderModule } from './feature/header/header.module';
 import { StoreModule } from '@ngrx/store';
 import { TicketReducer } from './store/tickets/ticket.reducer';
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
     BrowserAnimationsModule,
     HeaderModule,
     StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 10
     })

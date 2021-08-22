@@ -10,24 +10,7 @@ export interface TicketFeatureState {
 
 export const defaultTicketFeatureState: TicketFeatureState = {
   loading: true,
-  tickets: [
-    {
-      id: 0,
-      name: "Install a monitor arm",
-      description:
-        "I currently have my monitors on top of books. True story, but hey, its been working.",
-      assigneeId: 111,
-      completed: false,
-    },
-    {
-      id: 1,
-      name: "Move the desk to the new location",
-      description:
-        "Please move the desk down the hall from room 101 to room 999.... good luck!",
-      assigneeId: 111,
-      completed: false,
-    },
-  ],
+  tickets: [],
   users: [],
   error: null,
 };

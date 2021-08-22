@@ -15,6 +15,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { StoreModule } from "@ngrx/store";
 import { TicketReducer } from "src/app/store/tickets";
+import { EffectsModule } from "@ngrx/effects";
+import { TicketEffects } from "src/app/store/tickets/ticket.effects";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { TicketReducer } from "src/app/store/tickets";
     MatDialogModule,
     MatIconModule,
     MatInputModule,
-    StoreModule.forFeature('tickets', TicketReducer)
+    StoreModule.forFeature('tickets', TicketReducer),
+    EffectsModule.forFeature([TicketEffects])
   ],
   entryComponents: [AddTicketDialogComponent],
   providers: [BackendService],
