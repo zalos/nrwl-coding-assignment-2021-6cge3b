@@ -74,7 +74,13 @@ export class BackendService {
   lastId = 1;
 
   constructor() {
-    
+    const lastLoadedId = localStorage.getItem('lastId');
+    if(!lastLoadedId) {
+      this.lastId = 1;
+      localStorage.setItem('lastId', `${this.lastId}`);
+    } else {
+      this.lastId = parseInt(lastLoadedId);
+    }
   }
 
   private loadTicketsFromStorage(): Ticket[] {
@@ -101,8 +107,9 @@ export class BackendService {
     return this.storedUsers;
   }
 
-  private findTicketById = id =>
-    this.loadTicketsFromStorage().find(ticket => ticket.id === +id);
+  private findTicketById = id => {
+    return this.loadTicketsFromStorage().find(ticket => ticket.id === id);
+  }
 
   private findUserById = id => this.loadUsersFromStorage().find(user => user.id === +id);
 
@@ -134,6 +141,7 @@ export class BackendService {
     this.storedTickets = this.storedTickets.concat(newTicket);
     return of(newTicket).pipe(delay(randomDelay()), tap((val) => {
       this.saveTicketsToStorage();
+      localStorage.setItem('lastId', `${this.lastId}`);
     }));
   }
 

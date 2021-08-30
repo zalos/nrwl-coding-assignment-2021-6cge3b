@@ -1,10 +1,9 @@
 <div class="ticket-area">
-  [ {{ tickets$ | async }} ]
     <div class="ticket-filters">
         <mat-form-field appearance="fill">
             <mat-label>Assigned to</mat-label>
             <mat-select [(ngModel)]="selectedUser"
-                        (selectionChange)="filterTickets()"
+                        (selectionChange)="setSelectedUser()"
                         name="user">
                 <mat-option [value]="-1">
                     Any
@@ -18,7 +17,7 @@
         <mat-form-field appearance="fill">
             <mat-label>Ticket Status</mat-label>
             <mat-select [(ngModel)]="selectedStatus"
-                        (selectionChange)="filterTickets()"
+                        (selectionChange)="setSelectedUTicketStatus()"
                         name="status">
                 <mat-option [value]="TicketStatus.Any">
                     Any

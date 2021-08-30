@@ -5,9 +5,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { AddTicketDialogComponent } from "./add-ticket/add-ticket.component";
 import { select, Store } from '@ngrx/store';
 import * as TicketActions from '../../../store/tickets';
-import { LoadTickets, LoadTicketsSuccess } from '../../../store/tickets';
+import { AddTicket, LoadTickets, LoadTicketsSuccess, SetSelectedTicketStatusFilter, SetSelectedUserFilter } from '../../../store/tickets';
 import { TicketFeatureState } from 'src/app/store/tickets/tickets.state';
-import { GetAllTickets } from 'src/app/store/tickets/ticket.selectors';
+import { GetAllTickets, selectTicketFeatureFilteredTickets } from 'src/app/store/tickets/ticket.selectors';
 
 class TicketItem extends Ticket {
   userName: string;
@@ -27,12 +27,18 @@ export class TicketListComponent implements OnInit {
   }));
   public selectedUser: number = -1; // -1 is the designation for not applying the filter
   public selectedStatus: TicketStatus = TicketStatus.Open;
-  public tickets$ = this._store.pipe(select(GetAllTickets));
+  public tickets$ = this._store.pipe(select(selectTicketFeatureFilteredTickets));
+
 
 
   constructor(private _store: Store<TicketFeatureState>, private backend: BackendService, private _dialog: MatDialog) {
-    //this.filterTickets();
     this._store.dispatch(LoadTickets());
+    // attach events for snackbar
+    this.readySnackbarEvents();
+  }
+
+  private readySnackbarEvents() {
+    //this._store.
   }
 
   /**
@@ -48,6 +54,14 @@ export class TicketListComponent implements OnInit {
     }
   }
 
+  setSelectedUser() {
+    this._store.dispatch(SetSelectedUserFilter({assigneeId: this.selectedUser}));
+  }
+
+  setSelectedUTicketStatus() {
+    this._store.dispatch(SetSelectedTicketStatusFilter({ticketStatus: this.selectedStatus}));
+  }
+
   /**
    * Opens the add ticket Dialog
    */
@@ -55,11 +69,7 @@ export class TicketListComponent implements OnInit {
     const dialogRef = this._dialog.open(AddTicketDialogComponent, {data: {}});
 
     dialogRef.afterClosed().subscribe(async newTicket => {
-      await this.backend.newTicket(newTicket).toPromise();
-      if(this.selectedStatus == TicketStatus.Closed) {
-        this.selectedStatus = TicketStatus.Open;
-      }
-      this.filterTickets();
+      this._store.dispatch(AddTicket({name: newTicket.name, description: newTicket.description}));
     });
   }
 

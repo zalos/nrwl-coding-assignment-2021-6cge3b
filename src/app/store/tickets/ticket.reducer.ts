@@ -15,5 +15,17 @@ export const TicketReducer = createReducer<TicketFeatureState>(
       ...state,
       tickets: [...action.tickets],
     };
+  }),
+  on(TicketAction.SetSelectedTicketStatusFilter, (state, action) => {
+    return {
+      ...state,
+      selectedTicketStatus: action.ticketStatus,
+    };
+  }),
+  on(TicketAction.SetSelectedUserFilter, (state, action) => {
+    return {
+      ...state,
+      selectedUser: action.assigneeId,
+    };
   })
 );

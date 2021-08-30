@@ -13,8 +13,11 @@ mat-card {
   margin-bottom: 12px;
 }
 
+
+
 mat-card-header {
   width: 100%;
+    border-bottom: 1px solid #bbbbbb;
 }
 mat-card-title {
   display: flex;
@@ -24,6 +27,7 @@ mat-card-title {
   width: 100%;
   text-align: center;
   text-align: left;
+  margin: auto !important;
 }
 .status.open {
   font-weight: bold;

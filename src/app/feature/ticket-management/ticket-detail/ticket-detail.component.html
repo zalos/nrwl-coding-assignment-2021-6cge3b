@@ -14,17 +14,7 @@
         <mat-card-header>
             <mat-card-title id="ticket-name">{{ticket.name}}</mat-card-title>
             <mat-card-subtitle>
-                <mat-form-field appearance="fill">
-                    <mat-label>Assigned to</mat-label>
-                    <mat-select [(ngModel)]="ticket.assigneeId"
-                                (selectionChange)="assignTicket(ticket)"
-                                name="user">
-                        <mat-option *ngFor="let user of users$ | async"
-                                    [value]="user.id">
-                            {{user.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+                
             </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
@@ -33,10 +23,33 @@
             </p>
         </mat-card-content>
         <mat-card-actions>
-            <button id="complete-button"
-                mat-raised-button
-                    color="primary"
-                    (click)="complete(ticket)">Complete</button>
+            <mat-form-field appearance="fill">
+                <mat-label>Assigned to</mat-label>
+                <mat-select [(ngModel)]="ticket.assigneeId"
+                            (selectionChange)="assignTicket(ticket)"
+                            name="user">
+                    <mat-option [value]="null">
+                        -- unassigned --
+                    </mat-option>
+                    <mat-option *ngFor="let user of users$ | async"
+                                [value]="user.id">
+                        {{user.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Status</mat-label>
+                <mat-select [(ngModel)]="ticket.completed"
+                            (selectionChange)="changeStatus(ticket)"
+                            name="user">
+                    <mat-option [value]="false">
+                        Open
+                    </mat-option>
+                    <mat-option [value]="true">
+                        Completed
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
         </mat-card-actions>
     </mat-card>
 </div>
