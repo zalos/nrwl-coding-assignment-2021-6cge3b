@@ -9,6 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { TicketReducer } from './store/tickets/ticket.reducer';
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { EffectsModule } from '@ngrx/effects';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { EffectsModule } from '@ngrx/effects';
     HeaderModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
+    MatSnackBarModule,
     StoreDevtoolsModule.instrument({
       maxAge: 10
     })
