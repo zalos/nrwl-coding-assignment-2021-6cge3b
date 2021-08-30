@@ -35,13 +35,13 @@ function randomDelay() {
 
 function saveToStorage(key: string, value: any) {
   window.localStorage.setItem(key, value);
-  console.log(`saved ${key} to storage`);
+  //console.log(`saved ${key} to storage`);
 }
 
 function loadFromStorage(key: string) {
   var value = window.localStorage.getItem(key);
   if(value) {
-    console.log(`loaded ${key} from storage`);
+    //console.log(`loaded ${key} from storage`);
     return JSON.parse(value);
   }
   return null;
